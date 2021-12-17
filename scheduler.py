@@ -14,14 +14,15 @@ class Calculate:
     def miss_teacher(self) -> pandas.DataFrame:
         """Возвращает DataFrame с расписание отсутсвующих преподователей"""
         teacher_apair: pandas.DataFrame = self._db_data[self._db_data['is_group'] == 0]
-        self._missed: typing.List = list(map(lambda x: x.upper(), list(self._missed['ФИО'].values)))
-        return teacher_apair.loc[teacher_apair['group_name'].isin(self._missed)]
+        missed: typing.List = list(map(lambda x: x.upper(), list(self._missed['ФИО'].values)))
+        return teacher_apair.loc[teacher_apair['group_name'].isin(missed)]
 
-    def need_change(self):
-        """Возвращает пары которые надо заменить"""
-        json_data = self.miss_teacher()
+    def get_apair_teacher(self, name: str) -> typing.Dict:
+        """Возвращает пары препода по фамилии"""
+        df: pandas.DataFrame = self._db_data[self._db_data['is_group'] == 0]
+        return json.loads(df[df["group_name"].values == [name]]['json_data'].values[0])
 
-        json.loads(json_data.iloc[0]['json_data'])
-        print(json_data)
+    def get_apair_group(self, group_name: str) -> typing.Dict:
+        df: pandas.DataFrame = self._db_data[self._db_data['is_group'] == 1]
+        return json.loads(df[df["group_name"].values == [group_name]]['json_data'].values[0])
 
-Calculate().need_change()
