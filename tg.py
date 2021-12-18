@@ -1,4 +1,4 @@
-
+import auth
 from tkinter import *
 from tkinter import ttk
 
@@ -20,7 +20,7 @@ class Window(Tk):
         menu = Menu(self)
         self.config(menu=menu)
         test1 = Menu(menu, tearoff=0)
-        test1.add_command(label='Загрузить')
+        test1.add_command(label='Выйти', command=self.back_auth)
         test1.add_command(label='test2')
         test1.add_command(label='test3')
 
@@ -140,3 +140,6 @@ class Window(Tk):
 
         table.pack(expand=YES, fill=BOTH)
 
+    def back_auth(self):
+        auth.AuthApp()
+        self.destroy()

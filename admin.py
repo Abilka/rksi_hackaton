@@ -1,6 +1,8 @@
-
 from tkinter import *
 from tkinter import ttk
+from tkinter.tix import ComboBox
+
+import auth
 
 
 class Window(Tk):
@@ -22,7 +24,7 @@ class Window(Tk):
         test1 = Menu(menu, tearoff=0)
         test1.add_command(label='Загрузить')
         test1.add_command(label='Добавить пользователя', command=self.new_window2)
-        test1.add_command(label='test3')
+        test1.add_command(label='Выйти', command=self.back_auth)
 
         test2 = Menu(menu, tearoff=0)
         test2.add_command(label='test1')
@@ -143,6 +145,10 @@ class Window(Tk):
     def new_window2(self):
         add_User().mainloop()
 
+    def back_auth(self):
+        auth.AuthApp()
+        self.destroy()
+
 
 class add_User(Tk):
     def __init__(self, *arg, **kwarg):
@@ -153,29 +159,36 @@ class add_User(Tk):
         self.title("Turtle")
         self.config(bg='#D5E8D4')
 
-        frame = Frame(self)
-        frame.pack()
+        label_login = Label(self, text='Логин:', bg='#D5E8D4')
+        label_login.grid(
+            column=0, row=0, padx=120, pady=(20, 0)
+        )
 
-        heads_user = ['login', 'role']
-        list = [
-            ('логин1', 'бухгалтер'),
-            ('логин2', 'админ'),
-            ('логин3', 'уо'),
-            ('логин4', 'уо'),
-            ('логин5', 'бухгалтер'),
-            ('логин6', 'бухгалтер'),
-        ]
+        self.login = Entry(self, width=20)
+        self.login.grid(
+            row=1, column=0, pady=(10, 10)
+        )
 
-        # высота изменяеться в зависимости количества данных
-        table2 = ttk.Treeview(frame, show='headings')
-        table2['columns'] = heads_user
+        label_password = Label(self, text='Пароль:', bg='#D5E8D4')
+        label_password.grid(
+            column=0, row=3
+        )
 
-        # перебираем данные из списка header и заполняем в таблицу
-        for header in heads_user:
-            table2.heading(header, text=header, anchor='center')
-            table2.column(header, anchor='center', minwidth=150, width=140)
+        self.password = Entry(self, width=20)
+        self.password.grid(
+            row=4, column=0, pady=(10, 10)
+        )
 
-        # перебираем данные из списка list и заполняем в таблицу
-        for row in list:
-            table2.insert('', END, values=row)
+        combo_Box = ttk.Combobox(self, values=[
+            'admin',
+            'buhg',
+            'tb'
+        ])
 
+        combo_Box.current(0)
+        combo_Box.grid(
+            row=6, column=0, pady=20
+        )
+
+        self.btn_next = Button(self, text='Добавить', )
+        self.btn_next.grid(row=9, column=0)
