@@ -38,10 +38,11 @@ def login():
 def new_password():
     return {"result": database.Db().new_password(request.args['login'], request.args['password'])}
 
-@app.route('/'
-           '', methods=['GET'])
+
+@app.route('/new_user', methods=['GET'])
 def new_user():
     return {"result": database.Db().new_user(request.args['login'], request.args['password'], request.args['role'])}
+
 
 @app.route('/get_user', methods=['GET'])
 def get_user():
