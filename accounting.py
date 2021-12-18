@@ -1,8 +1,6 @@
 from tkinter import *
+from user import User
 
-
-def new_window():
-    Window().mainloop()
 
 
 class MainApp(Tk):
@@ -41,18 +39,26 @@ class MainApp(Tk):
         Label(self, text='Авторизация', font=('Arial Bold', 20), justify='center', bg='#D5E8D4').grid(
             row=0, column=5, pady=(40, 10))
 
-        Entry(self, width=20).grid(
+        self.login = Entry(self, width=20)
+        self.login.grid(
             row=1, column=5, pady=(10, 10), padx=140
         )
 
-        Entry(self, width=20, show='*').grid(
+        self.password = Entry(self, width=20, show='*')
+        self.password.grid(
             row=2, column=5, padx=140
         )
 
         Button(self, text='Далее', width=10, height=1, font=("Arial Bold", 10),
-               command=new_window).grid(
+               command=self.new_window).grid(
             row=3, column=5, pady=15,
         )
+
+    def new_window(self):
+        result =
+        if User(self.login.get(), self.password.get()).is_login is True:
+            User(self.login.get(), self.password.get()).get_user()
+            Window().mainloop()
 
 
 class Window(Tk):
@@ -88,7 +94,7 @@ class Window(Tk):
         menu.add_cascade(label='test2', menu=test2)
         menu.add_cascade(label='test3', menu=test3)
 
-        Button(self, text='Загрузить\nотсутствующий', width=15, height=3, font=("Arial Bold", 10)).grid(
+        Button(self, text='Загрузить\nотсутствующих', width=15, height=3, font=("Arial Bold", 10)).grid(
             row=1, column=0, padx=140, sticky=NW, pady=(60, 10))
         Button(self, text='Загрузить\nприсутствующих', width=15, height=3, font=("Arial Bold", 10)).grid(
             row=2, column=0, pady=10, padx=140, sticky=NW)

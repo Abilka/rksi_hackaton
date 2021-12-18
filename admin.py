@@ -1,8 +1,13 @@
+import self as self
+
+import user
+
 from tkinter import *
 from tkinter import ttk
 
 
 class MainApp(Tk):
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
@@ -32,11 +37,16 @@ class MainApp(Tk):
         Label(self, text='Авторизация', font=('Arial Bold', 20), justify='center', bg='#D5E8D4').grid(
             row=0, column=5, pady=(40, 10))
 
-        Entry(self, width=20).grid(
+        name = Label(text='test')
+        login_e = Entry(self, width=20, )
+        login_e.grid(
             row=1, column=5, pady=(10, 10), padx=140
         )
 
-        Entry(self, width=20, show='*').grid(
+
+
+
+        password_e = Entry(self, width=20, show='*').grid(
             row=2, column=5, padx=140
         )
 
