@@ -20,6 +20,14 @@ class User:
             return True
         return False
 
+    @property
+    def role(self):
+        if requests.get('{0}/login'.format(self.host),
+                        params={'login': self.login, 'password': self.coding_password(self.password)}).json()[
+            'result'] is True:
+            return True
+        return False
+
     def set_password(self, new_password: str) -> None:
         if self.auth is True:
             requests.get('{0}/new_password'.format(self.host),

@@ -3,10 +3,6 @@ import sqlite3
 from typing import List
 
 import mysql.connector
-import setting
-import hashlib
-import requests
-
 
 
 class Db:
@@ -20,9 +16,15 @@ class Db:
         self.cursor = self.mydb.cursor()
 
     def is_login(self, login: str, password: str) -> bool:
-        self.cursor.execute('SELECT password FROM users WHERE login = %s AND password = %s', (login, password))
+        self.cursor.execute('SELECT role FROM users WHERE login = %s AND password = %s', (login, password))
         if self.cursor.fetchone() is not None:
             return True
+        return False
+
+    def get_role(self, login: str, password: str):
+        self.cursor.execute('SELECT role FROM users WHERE login = %s AND password = %s', (login, password))
+        if self.cursor.fetchone() is not None:
+            return self.cursor.fetchone()
         return False
 
     def new_password(self, login: str, password: str) -> None:

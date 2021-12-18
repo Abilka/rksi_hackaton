@@ -48,6 +48,16 @@ def new_user():
 def get_user():
     return {"result": database.Db().get_users()}
 
+@app.route('/get_user', methods=['GET'])
+def get_schedule():
+    return {"result": database.Db().get_users()}
 
-# app.run(port=setting.SERVER_PORT, host="0.0.0.0")
-app.run(port=setting.SERVER_PORT)
+@app.route('/get_user', methods=['GET'])
+def get_schedule():
+    return {"result": database.Db().get_users()}
+
+
+
+
+app.run(port=setting.SERVER_PORT, host="0.0.0.0")
+# app.run(port=setting.SERVER_PORT)
