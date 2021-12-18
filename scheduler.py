@@ -69,6 +69,7 @@ class Schedule:
             "hour=='{}'".format(hour))
         query['doctrine'] = lesson_subject
         query['group'] = family_new
+        query['weight'] = 0
         return query
 
     def insert_apair(self):
@@ -139,17 +140,29 @@ class Schedule:
             for teacher in self.get_teacher_group(row[1]['teacher']):
                 if teacher.upper() not in bad_perpods:
                     if not self.is_free(teacher, day, hour):
-                        # changed = changed.append(self.set_apair(day, hour, row[1]['group'], teacher, self.get_subject_training(teacher)[0]))
 
                         radius: typing.Dict = self.is_radius_apair(teacher, day, hour)
                         if radius['down']['status'] is True:
-                            apair: pandas.DataFrame = self.set_apair(day, radius['down']['hour'], row[1]['group'], teacher, self.get_subject_training(teacher)[0])
+                            apair: pandas.DataFrame = self.set_apair(day, radius['down']['hour'], row[1]['group'],
+                                                                     teacher, self.get_subject_training(teacher)[0])
+                            apair['changled'] = row[1]['group']
+                            apair['weight'] = 1.0
                             changed: pandas.DataFrame = changed.append(apair)
                         elif radius['upper']['status'] is True:
-                            apair: pandas.DataFrame = self.set_apair(day, radius['upper']['hour'], row[1]['group'], teacher, self.get_subject_training(teacher)[0])
+                            apair: pandas.DataFrame = self.set_apair(day, radius['upper']['hour'], row[1]['group'],
+                                                                     teacher, self.get_subject_training(teacher)[0])
+                            apair['changled'] = row[1]['group']
+                            apair['weight'] = 1.0
                             changed: pandas.DataFrame = changed.append(apair)
-        return pandas.DataFrame(changed)
+                    else:
+                        apair: pandas.DataFrame = self.set_apair(day, hour, row[1]['group'], teacher,
+                                                                 self.get_subject_training(teacher)[0])
+                        apair['changled'] = row[1]['group']
+                        apair['weight'] = 0.5
+                        changed: pandas.DataFrame = changed.append(apair)
+
+        return pandas.DataFrame(changed.sort_values('weight',ascending=False).drop_duplicates())
 
 
-
-
+x = Schedule().changed_needed()
+x.to_excel('Лист замен.xlsx', 'Замены', index=False, engine='openpyxl')
