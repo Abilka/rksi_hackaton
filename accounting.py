@@ -55,7 +55,7 @@ class MainApp(Tk):
         )
 
     def new_window(self):
-        result =
+
         if User(self.login.get(), self.password.get()).is_login is True:
             User(self.login.get(), self.password.get()).get_user()
             Window().mainloop()
