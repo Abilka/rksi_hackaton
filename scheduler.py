@@ -161,32 +161,30 @@ class Schedule:
                         apair['changled'] = row[1]['group']
                         apair['weight'] = 0.5
                         changed: pandas.DataFrame = changed.append(apair)
-        self._changed: pandas.DataFrame = pandas.DataFrame(changed.sort_values('weight', ascending=False).drop_duplicates())
-        return self._changed
+        self.changed: pandas.DataFrame = pandas.DataFrame(changed.sort_values('weight', ascending=False).drop_duplicates())
+        return self.changed
 
     def save_excel(self):
-        schedule = self._changed
+        schedule = self.changed
         with pandas.ExcelWriter("Лист замен.xlsx", mode='w') as write:
             for date in list(schedule['day'].drop_duplicates().sort_values().values):
                 df: pandas.DataFrame = schedule[schedule['day'] == date].copy()
                 df.to_excel(write, sheet_name=date, index=False)
 
     def save_html(self):
-        schedule = self._changed
         with open('Лист замен.html', 'w') as f:
-            f.write(schedule.to_html(index=False))
+            f.write(self.changed.to_html(index=False))
 
     def save_json(self):
-        schedule = self._changed
         with open('Лист замен.json', 'w') as f:
-            f.write(schedule.to_json(orient='records'))
+            f.write(self.changed.to_json(orient='records'))
 
     def save_xml(self):
-        schedule = self._changed
         with open('Лист замен.xml', 'w') as f:
-            f.write(schedule.to_xml())
+            f.write(self.changed.to_xml())
 
 
 x = Schedule()
 x.changed_needed()
 x.save_excel()
+

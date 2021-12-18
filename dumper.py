@@ -1,12 +1,13 @@
 import datetime
 import json
 import logging
+
 import time
 
 import requests
 
 import database
-import takescheduleRKSI
+import takeschedule
 
 DEBUG = True
 
@@ -32,7 +33,7 @@ def start():
         logging.info('Запускаю дамп расписания с сайта')
         with database.DbSchedule() as db:
             db.cleare_base()
-            x = takescheduleRKSI.Take()
+            x = takeschedule.Take()
             for group in x.take_group_list():
                 sch = x.schedule(group)
                 db.append_json_data(group, json.dumps(sch), True)
