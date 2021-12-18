@@ -2,14 +2,17 @@ import json
 import typing
 
 import pandas
+import requests
 
 import database
+import setting
 
 
 class Schedule:
     def __init__(self):
         """Иницилиазтор, грузит из бд информацию о парах и отсутсвующих преподов"""
-        self._db_data: pandas.DataFrame = pandas.read_sql('SELECT * FROM schedule', database.DbSchedule().connection)
+        result = requests.get('http://{0}:{1}/take_schedule'.format(setting.SERVER_IP, setting.SERVER_PORT)).json()
+        self._db_data: pandas.DataFrame = pandas.DataFrame(result)
         self._missed: pandas.DataFrame = pandas.read_excel('Отсутствующие.xlsx')
         self._db_data_nochange = self._db_data.copy()
         self._db_data = self.convert_db_data()
@@ -184,7 +187,4 @@ class Schedule:
             f.write(self.changed.to_xml())
 
 
-x = Schedule()
-x.changed_needed()
-x.save_excel()
 

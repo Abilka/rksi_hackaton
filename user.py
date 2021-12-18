@@ -49,4 +49,3 @@ class User:
         return requests.get('http://{0}:{1}/new_user'.format(setting.SERVER_IP, setting.SERVER_PORT),
                             params={'login': login, "password": User.coding_password(password), 'role': role}).json()
 
-User.new_user('ivan', '1234', 'tb')
