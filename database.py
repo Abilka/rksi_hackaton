@@ -21,10 +21,11 @@ class Db:
             return True
         return False
 
-    def get_role(self, login: str, password: str):
-        self.cursor.execute('SELECT role FROM users WHERE login = %s AND password = %s', (login, password))
-        if self.cursor.fetchone() is not None:
-            return self.cursor.fetchone()
+    def get_role(self, login: str):
+        self.cursor.execute('SELECT role FROM users WHERE login = %s', (login,))
+        result = self.cursor.fetchone()
+        if result is not None:
+            return result[0]
         return False
 
     def new_password(self, login: str, password: str) -> None:

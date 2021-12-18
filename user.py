@@ -38,7 +38,7 @@ class User:
         return hashlib.sha512(password.encode('utf-8')).hexdigest()
 
     @staticmethod
-    def get_user() -> dict:
+    def get_users() -> dict:
         return requests.get('http://{0}:{1}/get_user'.format(setting.SERVER_IP, setting.SERVER_PORT)).json()
 
     @staticmethod

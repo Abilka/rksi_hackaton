@@ -48,13 +48,10 @@ def new_user():
 def get_user():
     return {"result": database.Db().get_users()}
 
-@app.route('/get_user', methods=['GET'])
-def get_schedule():
-    return {"result": database.Db().get_users()}
 
-@app.route('/get_user', methods=['GET'])
-def get_schedule():
-    return {"result": database.Db().get_users()}
+@app.route('/get_role', methods=['GET'])
+def get_role():
+    return {"result": database.Db().get_role(request.args['login'])}
 
 
 
