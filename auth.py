@@ -2,6 +2,7 @@ import tkinter
 
 from user import User
 from tkinter import *
+from tkinter import messagebox
 
 
 class AuthApp(Tk):
@@ -61,3 +62,5 @@ class AuthApp(Tk):
             User(self.login.get(), self.password.get()).get_user()
             self.destroy()
             self.next_window().mainloop()
+        else:
+            messagebox.showerror('Ошибка', 'Не правильный логин или пароль')
