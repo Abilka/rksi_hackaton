@@ -20,7 +20,7 @@ class Schedule:
         missed: typing.List = list(map(lambda x: x.upper(), list(self._missed['ФИО'].values)))
         return teacher_apair.loc[teacher_apair['group_name'].isin(missed)]
 
-    def convert_db_data(self):
+    def convert_db_data(self) -> pandas.DataFrame:
         json_data: typing.List = []
         array_apair: typing.Dict = {}
         for i in self._db_data[['group_name', 'json_data']].values:
@@ -50,13 +50,15 @@ class Schedule:
         else:
             return None
 
-    def get_current_apair(self, name, apair_day: str, apair_hour: str):
+    def get_current_apair(self, name: str, apair_day: str, apair_hour: str):
+        """Берет конкретную парру"""
         apair_teacher: pandas.DataFrame = self.get_apair(name)
         query: pandas.DataFrame = apair_teacher.query("day=='{}'".format(apair_day)).query(
             "hour=='{}'".format(apair_hour))
         return query
 
     def get_teacher_group(self, group: str) -> typing.List:
+        """Берет преподов группы"""
         return list(self._db_data[self._db_data['group'] == group]['teacher'].drop_duplicates().values)
 
     def get_subject_training(self, name: str):
@@ -64,6 +66,7 @@ class Schedule:
         return list(self._db_data[self._db_data['teacher'] == name]['doctrine'].drop_duplicates().values)
 
     def set_apair(self, day: str, hour: str, family_replaced: str, family_new: str, lesson_subject: str):
+        """Установить значение пары и вернуть DataFrame"""
         apair_teacher: pandas.DataFrame = self.get_apair(family_replaced)
         query: pandas.DataFrame = apair_teacher.query("day=='{}'".format(day)).query(
             "hour=='{}'".format(hour))
@@ -72,14 +75,11 @@ class Schedule:
         query['weight'] = 0
         return query
 
-    def insert_apair(self):
-        ...
-
     def need_replace(self) -> pandas.DataFrame:
         """Возвращает dataframe пар необходимых заменить"""
         return self._db_data.loc[self._db_data['group'].isin(self.miss_teacher_family())]
 
-    def is_free(self, name, apair_day: str, apair_hour: str) -> bool:
+    def is_free(self, name: str, apair_day: str, apair_hour: str) -> bool:
         """Проверка, свободна ли пара"""
 
         apair_teacher: pandas.DataFrame = self.get_apair(name)
@@ -90,7 +90,7 @@ class Schedule:
                 return False
             return True
 
-    def is_radius_apair(self, name, apair_day: str, apair_hour: str) -> typing.Dict:
+    def is_radius_apair(self, name: str, apair_day: str, apair_hour: str) -> typing.Dict:
         """Выясняет, свободны ли пары в радиусе (выше/ниже) одной пары от отправленной
         :param name: ФИО препода
         :param apair_day: день пары
@@ -131,6 +131,7 @@ class Schedule:
         return {'down': {"status": is_down, 'hour': down_hour}, 'upper': {"status": is_upper, 'hour': upper_hour}}
 
     def changed_needed(self) -> pandas.DataFrame:
+        """Находит замены по отсуств. преподам"""
         bad_perpods = self.miss_teacher_family()
         need_replace = self.need_replace()
         changed: pandas.DataFrame = pandas.DataFrame()
@@ -160,9 +161,32 @@ class Schedule:
                         apair['changled'] = row[1]['group']
                         apair['weight'] = 0.5
                         changed: pandas.DataFrame = changed.append(apair)
+        self._changed: pandas.DataFrame = pandas.DataFrame(changed.sort_values('weight', ascending=False).drop_duplicates())
+        return self._changed
 
-        return pandas.DataFrame(changed.sort_values('weight',ascending=False).drop_duplicates())
+    def save_excel(self):
+        schedule = self._changed
+        with pandas.ExcelWriter("Лист замен.xlsx", mode='w') as write:
+            for date in list(schedule['day'].drop_duplicates().sort_values().values):
+                df: pandas.DataFrame = schedule[schedule['day'] == date].copy()
+                df.to_excel(write, sheet_name=date, index=False)
+
+    def save_html(self):
+        schedule = self._changed
+        with open('Лист замен.html', 'w') as f:
+            f.write(schedule.to_html(index=False))
+
+    def save_json(self):
+        schedule = self._changed
+        with open('Лист замен.json', 'w') as f:
+            f.write(schedule.to_json(orient='records'))
+
+    def save_xml(self):
+        schedule = self._changed
+        with open('Лист замен.xml', 'w') as f:
+            f.write(schedule.to_xml())
 
 
-x = Schedule().changed_needed()
-x.to_excel('Лист замен.xlsx', 'Замены', index=False, engine='openpyxl')
+x = Schedule()
+x.changed_needed()
+x.save_excel()
