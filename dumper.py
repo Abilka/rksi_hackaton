@@ -9,7 +9,7 @@ import requests
 import database
 import takeschedule
 
-DEBUG = True
+DEBUG = False
 
 logging.basicConfig(format='%(asctime)s (%(levelname)s) -  %(message)s', level=logging.INFO, filename='dump.log',
                     filemode='a')
