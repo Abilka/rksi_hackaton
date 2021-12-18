@@ -1,4 +1,3 @@
-import auth
 
 from tkinter import *
 from tkinter import ttk
@@ -180,6 +179,3 @@ class add_User(Tk):
         for row in list:
             table2.insert('', END, values=row)
 
-
-if __name__ == '__main__':
-    auth.AuthApp(Window).mainloop()

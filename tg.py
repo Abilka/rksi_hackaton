@@ -1,4 +1,3 @@
-import auth
 
 from tkinter import *
 from tkinter import ttk
@@ -141,6 +140,3 @@ class Window(Tk):
 
         table.pack(expand=YES, fill=BOTH)
 
-
-if __name__ == '__main__':
-    auth.AuthApp(Window).mainloop()

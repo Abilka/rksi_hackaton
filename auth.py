@@ -1,13 +1,25 @@
 import tkinter
 
+import setting
 from user import User
 from tkinter import *
 from tkinter import messagebox
+import accounting
+import admin
+import tg
+import typing
+
+
+ROLE: typing.Dict = {
+    'admin': admin.Window,
+    'buh': accounting.Window,
+    'tb': tg.Window
+}
+
 
 
 class AuthApp(Tk):
-    def __init__(self, next_window: tkinter.Tk, *args, **kwargs):
-        self.next_window = next_window
+    def __init__(self,  *args, **kwargs):
         super().__init__(*args, **kwargs)
 
         # параметры окна
@@ -58,9 +70,11 @@ class AuthApp(Tk):
         )
 
     def new_window(self):
-        if User(self.login.get(), self.password.get()).is_login is True:
-            User(self.login.get(), self.password.get()).get_user()
+        user = User(self.login.get(), self.password.get())
+        if user.is_login is True:
+
             self.destroy()
-            self.next_window().mainloop()
+            ROLE[user.role]().mainloop()
+
         else:
             messagebox.showerror('Ошибка', 'Не правильный логин или пароль')

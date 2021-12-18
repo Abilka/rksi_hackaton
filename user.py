@@ -1,7 +1,5 @@
 import hashlib
-
 import requests
-
 import setting
 
 
@@ -22,11 +20,9 @@ class User:
 
     @property
     def role(self):
-        if requests.get('{0}/login'.format(self.host),
+        return requests.get('{0}/get_role'.format(self.host),
                         params={'login': self.login, 'password': self.coding_password(self.password)}).json()[
-            'result'] is True:
-            return True
-        return False
+            'result']
 
     def set_password(self, new_password: str) -> None:
         if self.auth is True:
@@ -45,3 +41,5 @@ class User:
     def new_user(login: str, password: str, role: str) -> dict:
         return requests.get('http://{0}:{1}/new_user'.format(setting.SERVER_IP, setting.SERVER_PORT),
                             params={'login': login, "password": User.coding_password(password), 'role': role}).json()
+
+User.new_user('ivan', '1234', 'tb')

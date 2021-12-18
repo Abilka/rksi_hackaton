@@ -1,4 +1,3 @@
-import auth
 
 from tkinter import *
 
@@ -41,6 +40,4 @@ class Window(Tk):
             row=2, column=0, pady=10, padx=140, sticky=NW)
 
 
-if __name__ == '__main__':
-    auth.AuthApp(Window).mainloop()
 
