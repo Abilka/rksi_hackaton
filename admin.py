@@ -118,7 +118,7 @@ class add_User(Tk):
 
         self.combo_Box = ttk.Combobox(self, values=[
             'admin',
-            'buhg',
+            'buh',
             'tb'
         ])
 
@@ -136,9 +136,9 @@ class add_User(Tk):
         role = self.combo_Box.get()
         if user.User.new_user(login,
                            password,
-                           role) is True:
+                           role)['result'] is True:
 
-            messagebox.showinfo('Уведомление', "Новый пользователь создан!\n{}\n{}".format(login, password))
+            messagebox.showinfo('Уведомление', "Новый пользователь создан!\n{}\n{}".format(login, role))
         else:
             messagebox.showerror('Ошибка', "Такой пользователь уже существует.")
         self.destroy()
