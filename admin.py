@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter import ttk
 from tkinter.tix import ComboBox
 
+import scheduler
 import auth
 
 
@@ -42,83 +43,16 @@ class Window(Tk):
 
         # заполнение таблицы
 
-        heads = ['doctrine', 'teacher', 'auditoria', 'corpus',
-                 'number', 'start', 'end', 'warn', 'group', 'day',
-                 'hour', 'weight', 'changled']
+        schedul = scheduler.Schedule().changed_needed()
 
-        list = [
-            ('test1', 'test2', 'test3', 'test4', 'test5', 'test6', 'test7', 'test8', 'test9', 'test10', 'test11',
-             'test12', 'test13'),
-            ('test1', 'test2', 'test3', 'test4', 'test5', 'test6', 'test7', 'test8', 'test9', 'test10', 'test11',
-             'test12', 'test13'),
-            ('test1', 'test2', 'test3', 'test4', 'test5', 'test6', 'test7', 'test8', 'test9', 'test10', 'test11',
-             'test12', 'test13'),
-            ('test1', 'test2', 'test3', 'test4', 'test5', 'test6', 'test7', 'test8', 'test9', 'test10', 'test11',
-             'test12', 'test13'),
-            ('test1', 'test2', 'test3', 'test4', 'test5', 'test6', 'test7', 'test8', 'test9', 'test10', 'test11',
-             'test12', 'test13'),
-            ('test1', 'test2', 'test3', 'test4', 'test5', 'test6', 'test7', 'test8', 'test9', 'test10', 'test11',
-             'test12', 'test13'),
-            ('test1', 'test2', 'test3', 'test4', 'test5', 'test6', 'test7', 'test8', 'test9', 'test10', 'test11',
-             'test12', 'test13'),
-            ('test1', 'test2', 'test3', 'test4', 'test5', 'test6', 'test7', 'test8', 'test9', 'test10', 'test11',
-             'test12', 'test13'),
-            ('test1', 'test2', 'test3', 'test4', 'test5', 'test6', 'test7', 'test8', 'test9', 'test10', 'test11',
-             'test12', 'test13'),
-            ('test1', 'test2', 'test3', 'test4', 'test5', 'test6', 'test7', 'test8', 'test9', 'test10', 'test11',
-             'test12', 'test13'),
-            ('test1', 'test2', 'test3', 'test4', 'test5', 'test6', 'test7', 'test8', 'test9', 'test10', 'test11',
-             'test12', 'test13'),
-            ('test1', 'test2', 'test3', 'test4', 'test5', 'test6', 'test7', 'test8', 'test9', 'test10', 'test11',
-             'test12', 'test13'),
-            ('test1', 'test2', 'test3', 'test4', 'test5', 'test6', 'test7', 'test8', 'test9', 'test10', 'test11',
-             'test12', 'test13'),
-            ('test11233', 'test2', 'test3', 'test4', 'test5', 'test6', 'test7', 'test8', 'test9', 'test10', 'test11',
-             'test12', 'test13'),
-            ('test11233', 'test2', 'test3', 'test4', 'test5', 'test6', 'test7', 'test8', 'test9', 'test10', 'test11',
-             'test12', 'test13'),
-            ('test11233', 'test2', 'test3', 'test4', 'test5', 'test6', 'test7', 'test8', 'test9', 'test10', 'test11',
-             'test12', 'test13'),
-            ('test11233', 'test2', 'test3', 'test4', 'test5', 'test6', 'test7', 'test8', 'test9', 'test10', 'test11',
-             'test12', 'test13'),
-            ('test11233', 'test2', 'test3', 'test4', 'test5', 'test6', 'test7', 'test8', 'test9', 'test10', 'test11',
-             'test12', 'test13'),
-            ('test11233', 'test2', 'test3', 'test4', 'test5', 'test6', 'test7', 'test8', 'test9', 'test10', 'test11',
-             'test12', 'test13'),
-            ('test11233', 'test2', 'test3', 'test4', 'test5', 'test6', 'test7', 'test8', 'test9', 'test10', 'test11',
-             'test12', 'test13'),
-            ('test11233', 'test2', 'test3', 'test4', 'test5', 'test6', 'test7', 'test8', 'test9', 'test10', 'test11',
-             'test12', 'test13'),
-            ('test11233', 'test2', 'test3', 'test4', 'test5', 'test6', 'test7', 'test8', 'test9', 'test10', 'test11',
-             'test12', 'test13'),
-            ('test11233', 'test2', 'test3', 'test4', 'test5', 'test6', 'test7', 'test8', 'test9', 'test10', 'test11',
-             'test12', 'test13'),
-            ('test11233', 'test2', 'test3', 'test4', 'test5', 'test6', 'test7', 'test8', 'test9', 'test10', 'test11',
-             'test12', 'test13'),
-            ('test11233', 'test2', 'test3', 'test4', 'test5', 'test6', 'test7', 'test8', 'test9', 'test10', 'test11',
-             'test12', 'test13'),
-            ('test11233', 'test2', 'test3', 'test4', 'test5', 'test6', 'test7', 'test8', 'test9', 'test10', 'test11',
-             'test12', 'test13'),
-            ('test11233', 'test2', 'test3', 'test4', 'test5', 'test6', 'test7', 'test8', 'test9', 'test10', 'test11',
-             'test12', 'test13'),
-            ('test11233', 'test2', 'test3', 'test4', 'test5', 'test6', 'test7', 'test8', 'test9', 'test10', 'test11',
-             'test12', 'test13'),
-            ('test11233', 'test2', 'test3', 'test4', 'test5', 'test6', 'test7', 'test8', 'test9', 'test10', 'test11',
-             'test12', 'test13'),
-            ('test11233', 'test2', 'test3', 'test4', 'test5', 'test6', 'test7', 'test8', 'test9', 'test10', 'test11',
-             'test12', 'test13'),
-            ('test11233', 'test2', 'test3', 'test4', 'test5', 'test6', 'test7', 'test8', 'test9', 'test10', 'test11',
-             'test12', 'test13'),
-            ('test11233', 'test2', 'test3', 'test4', 'test5', 'test6', 'test7', 'test8', 'test9', 'test10', 'test11',
-             'test12', 'test13'),
-            ('test11233', 'test2', 'test3', 'test4', 'test5', 'test6', 'test7', 'test8', 'test9', 'test10', 'test11',
-             'test12', 'test13'),
-            ('test11233', 'test2', 'test3', 'test4', 'test5', 'test6', 'test7', 'test8', 'test9', 'test10', 'test11',
-             'test12', 'test13'),
-        ]
+        heads = ['Предмет', 'Группа', 'Аудитория',
+                 'Корпус', 'Пара', 'Начало', 'Конец',
+                 'Преподаватели', 'Дата', 'Время', 'Вес']
+
+        data = list(map(list, schedul.values))
 
         # высота изменяеться в зависимости количества данных
-        table = ttk.Treeview(frame, show='headings', height=len(list))
+        table = ttk.Treeview(frame, show='headings', height=len(data))
         table['columns'] = heads
 
         # перебираем данные из списка header и заполняем в таблицу
@@ -126,8 +60,8 @@ class Window(Tk):
             table.heading(header, text=header, anchor='center')
             table.column(header, anchor='center', minwidth=150, width=140)
 
-        # перебираем данные из списка list и заполняем в таблицу
-        for row in list:
+        # перебираем данные из списка data и заполняем в таблицу
+        for row in data:
             table.insert('', END, values=row)
 
         # скроллинг по оси Y
