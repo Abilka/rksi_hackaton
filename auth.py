@@ -1,14 +1,13 @@
 import tkinter
-
 import setting
-from user import User
-from tkinter import *
-from tkinter import messagebox
 import accounting
 import admin
 import tg
 import typing
 
+from user import User
+from tkinter import *
+from tkinter import messagebox
 
 ROLE: typing.Dict = {
     'admin': admin.Window,
@@ -17,9 +16,8 @@ ROLE: typing.Dict = {
 }
 
 
-
 class AuthApp(Tk):
-    def __init__(self,  *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
         # параметры окна
@@ -33,23 +31,23 @@ class AuthApp(Tk):
         self.config(menu=menu)
 
         test1 = Menu(menu, tearoff=0)
-        test1.add_command(label='Выйти')
+        test1.add_command(label='Выйти', command=exit)
 
         test2 = Menu(menu, tearoff=0)
-        test2.add_command(label='Обратная связь', command=self.help)
+        test2.add_command(label='Обратная связь', font=("Arial Bold", 10), command=self.help)
 
-        menu.add_cascade(label='Действия', menu=test1)
-        menu.add_cascade(label='Помощь', menu=test2)
+        menu.add_cascade(label='Действия', menu=test1, font=("Arial Bold", 10))
+        menu.add_cascade(label='Помощь', menu=test2, font=("Arial Bold", 10))
 
         Label(self, text='Авторизация', font=('Arial Bold', 20), justify='center', bg='#D5E8D4').grid(
             row=0, column=5, pady=(40, 10))
 
-        self.login = Entry(self, width=20)
+        self.login = Entry(self, width=20, font=("Arial Bold", 10))
         self.login.grid(
             row=1, column=5, pady=(10, 10), padx=140
         )
 
-        self.password = Entry(self, width=20, show='*')
+        self.password = Entry(self, width=20, show='*', font=("Arial Bold", 10))
         self.password.grid(
             row=2, column=5, padx=140
         )
@@ -67,16 +65,19 @@ class AuthApp(Tk):
             ROLE[user.role]().mainloop()
 
         else:
-            messagebox.showerror('Ошибка', 'Не правильный логин или пароль')
+            messagebox.showerror('Ошибка', 'Не правильный логин или пароль', font=("Arial Bold", 10))
 
     def help(self):
         top = Toplevel(self)
         top.geometry('200x200+450+150')
         top.config(bg='#D5E8D4')
+        top.resizable(False, False)
+        help_label = Label(top, text='Обратная связь', bg='#D5E8D4', font=("Arial Bold", 13))
+        help_label.pack(pady=(20, 10))
 
-        label_select_corpus = Label(top, text='Обратная связь', bg='#D5E8D4')
-        label_select_corpus.pack(pady=(20, 10))
+        help_label_info = Label(top, text='VK: https://vk.com/zafires',
+                                bg='#D5E8D4', font=("Arial Bold", 10))
+        help_label_info.pack(pady=20)
 
-        label_select_corpus = Label(top, text='VK: https://vk.com/zafires\nVK: https://vk.com/al_shashkin',
-                                    bg='#D5E8D4')
-        label_select_corpus.pack(pady=20)
+    def exit(self):
+        self.quit()
