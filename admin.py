@@ -99,7 +99,7 @@ class add_User(Tk):
             row=1, column=0, pady=(10, 10)
         )
 
-        label_password = Label(self, text='Пароль:', bg='#D5E8D4', font=("Arial Bold", 10))
+        label_password = Label(self, text='Пароль:', bg='#D5E8D4', font=("Arial Bold", 10),)
         label_password.grid(
             column=0, row=3
         )
