@@ -19,5 +19,3 @@ class Recorder:
     def save_xml(self):
         with open(self.name+'.xml', 'w') as f:
             f.write(self.record.to_xml())
-
-Recorder

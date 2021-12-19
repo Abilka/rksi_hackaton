@@ -1,9 +1,12 @@
+import tkinter
 from tkinter import *
 from tkinter import ttk
 from tkinter.tix import ComboBox
 
 import scheduler
 import auth
+import user
+from tkinter import messagebox
 
 
 class Window(Tk):
@@ -90,7 +93,7 @@ class add_User(Tk):
 
         # параметры окна
         self.geometry('300x300+450+150')
-        self.title("Turtle")
+        self.title("Регистрация нового пользователя")
         self.config(bg='#D5E8D4')
 
         label_login = Label(self, text='Логин:', bg='#D5E8D4')
@@ -113,16 +116,29 @@ class add_User(Tk):
             row=4, column=0, pady=(10, 10)
         )
 
-        combo_Box = ttk.Combobox(self, values=[
+        self.combo_Box = ttk.Combobox(self, values=[
             'admin',
             'buhg',
             'tb'
         ])
 
-        combo_Box.current(0)
-        combo_Box.grid(
+        self.combo_Box.current(0)
+        self.combo_Box.grid(
             row=6, column=0, pady=20
         )
 
-        self.btn_next = Button(self, text='Добавить', )
+        self.btn_next = Button(self, text='Добавить', command=self.requests_registration)
         self.btn_next.grid(row=9, column=0)
+
+    def requests_registration(self):
+        login = self.login.get()
+        password = self.password.get()
+        role = self.combo_Box.get()
+        if user.User.new_user(login,
+                           password,
+                           role) is True:
+
+            messagebox.showinfo('Уведомление', "Новый пользователь создан!\n{}\n{}".format(login, password))
+        else:
+            messagebox.showerror('Ошибка', "Такой пользователь уже существует.")
+        self.destroy()
