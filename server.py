@@ -29,6 +29,11 @@ def new_password():
 def new_user():
     return {"result": database.Db().new_user(request.args['login'], request.args['password'], request.args['role'])}
 
+@app.route('/del_user', methods=['GET'])
+def del_user():
+    return {"result": database.Db().del_user(request.args['login'])}
+
+
 
 @app.route('/get_user', methods=['GET'])
 def get_user():

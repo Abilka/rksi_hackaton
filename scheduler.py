@@ -165,6 +165,7 @@ class Schedule:
                         apair['weight'] = 0.5
                         changed: pandas.DataFrame = changed.append(apair)
         self.changed: pandas.DataFrame = pandas.DataFrame(changed.sort_values('weight', ascending=False).drop_duplicates())
+        self.changed = self.changed.drop('warn', 1)
         return self.changed
 
     def save_excel(self):

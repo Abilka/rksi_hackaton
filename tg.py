@@ -1,12 +1,10 @@
-from tkinter.ttk import Treeview
+from tkinter import *
+from tkinter import ttk
 
 import pandas
 
 import auth
 import scheduler
-
-from tkinter import *
-from tkinter import ttk
 
 
 class Window(Tk):
@@ -18,8 +16,6 @@ class Window(Tk):
         self.title("Turtle")
         self.config(bg='#D5E8D4')
 
-
-
         # навигационная панель (меню)
         menu = Menu(self)
         self.config(menu=menu)
@@ -30,8 +26,8 @@ class Window(Tk):
 
         test2 = Menu(menu, tearoff=0)
         test2.add_command(label='Выбрать корпус', command=self.select_corpus)
-        test2.add_command(label='test2')
-        test2.add_command(label='test3')
+        test2.add_command(label='Выгрузить текущие данные')
+        test2.add_command(label='Выгрузить данные')
 
         test3 = Menu(menu, tearoff=0)
         test3.add_command(label='test1')
@@ -45,36 +41,18 @@ class Window(Tk):
         self.schedul = scheduler.Schedule().changed_needed()
 
         self.heads = ['Предмет', 'Группа', 'Аудитория',
-                  'Корпус', 'Пара', 'Начало', 'Конец',
-                  'Преподаватели', 'Дата', 'Время', 'Вес']
+                      'Корпус', 'Пара', 'Начало', 'Конец',
+                      'Преподаватели', 'Дата', 'Время', 'Вес']
         data = list(map(list, self.schedul.values))
 
         self.create_table(self.heads, data)
-        # заполнение таблицы
 
-        # schedul = scheduler.Schedule().changed_needed()
-        #
-        # heads = ['Предмет', 'Группа', 'Аудитория',
-        #          'Корпус', 'Пара', 'Начало', 'Конец',
-        #          'Преподаватели', 'Дата', 'Время', 'Вес']
-        # data = list(map(list, schedul.values))
-        #
-        # # высота изменяеться в зависимости количества данных
-        # self.table = ttk.Treeview(frame, show='headings', height=len(data))
-        # self.table['columns'] = heads
-        #
-        # # перебираем данные из списка header и заполняем в таблицу
-        # for header in heads:
-        #     self.table.heading(header, text=header, anchor='center')
-        #     self.table.column(header, anchor='center', minwidth=150, width=140)
-        #
-        # # перебираем данные из списка data и заполняем в таблицу
-        # for row in data:
-        #     self.table.insert('', END, values=row)
+        self.table.bind('<Button-1>', self.header_sort)
 
-
-
-
+    def header_sort(self, event):
+        region = self.table.identify("region", event.x, event.y)
+        if region == "heading":
+            self.treeview_sort_column(self.table.heading(self.table.identify_column(event.x))['text'], True)
 
     def back_auth(self):
         auth.AuthApp()
@@ -97,7 +75,6 @@ class Window(Tk):
         data = list(map(list, data.values))
         self.fill_data(data)
 
-
     def fill_data(self, data):
         # перебираем данные из списка header и заполняем в таблицу
         for header in self.heads:
@@ -111,12 +88,12 @@ class Window(Tk):
         data = list(map(lambda x: x[:11], data))
         self.visible_data = pandas.DataFrame(columns=self.heads, data=data)
 
+
+
     def create_table(self, heads, data):
         # фрейм
         frame = Frame(self, )
         frame.pack()
-
-
 
         # высота изменяеться в зависимости количества данных
         self.table = ttk.Treeview(self, show='headings', height=len(data))
@@ -136,9 +113,31 @@ class Window(Tk):
 
         self.table.pack(expand=YES, fill=BOTH)
 
+    def treeview_sort_column(self, col, reverse: bool):
+        """
+        to sort the table by column when clicking in column
+        """
+        try:
+            data_list = [
+                (int(self.table.set(k, col)), k) for k in self.table.get_children("")
+            ]
+        except Exception:
+            data_list = [(self.table.set(k, col), k) for k in self.table.get_children("")]
+
+        data_list.sort(reverse=reverse)
+
+        # rearrange items in sorted positions
+        for index, (val, k) in enumerate(data_list):
+            self.table.move(k, "", index)
+
+        # reverse sort next time
+        self.table.heading(
+            column=col,
+            text=col,
+            command=lambda _col=col: self.treeview_sort_column(_col, not reverse
+                                                               ),
+        )
 
     def clear_treeview(self):
         for row in self.table.get_children():
-           self.table.delete(row)
-
-
+            self.table.delete(row)

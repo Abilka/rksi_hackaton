@@ -33,6 +33,11 @@ class User:
             requests.get('{0}/new_password'.format(self.host),
                          params={'login': self.login, 'password': self.coding_password(new_password)}).json()
 
+    def __del__(self):
+        if self.auth is True:
+            requests.get('{0}/del_user'.format(self.host),
+                         params={'login': self.login})
+
     @staticmethod
     def coding_password(password: str) -> str:
         """Шифрование пароля"""

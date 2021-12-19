@@ -50,6 +50,10 @@ class Db:
         self.cursor.execute('SELECT login, role FROM users')
         return self.cursor.fetchall()
 
+    def del_user(self, login):
+        self.cursor.execute('DELETE users WHERE login=%s', (login,))
+        self.mydb.commit()
+
 class DbSchedule:
     def __init__(self) -> None:
         self.connection = sqlite3.connect('schedule.db')
