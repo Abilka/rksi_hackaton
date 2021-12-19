@@ -65,7 +65,7 @@ class AuthApp(Tk):
             ROLE[user.role]().mainloop()
 
         else:
-            messagebox.showerror('Ошибка', 'Не правильный логин или пароль', font=("Arial Bold", 10))
+            messagebox.showerror('Ошибка', 'Не правильный логин или пароль')
 
     def help(self):
         top = Toplevel(self)
