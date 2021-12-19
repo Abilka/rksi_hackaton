@@ -1,5 +1,7 @@
 from tkinter.ttk import Treeview
 
+import pandas
+
 import auth
 import scheduler
 
@@ -40,14 +42,14 @@ class Window(Tk):
         menu.add_cascade(label='Выгрузка', menu=test2)
         menu.add_cascade(label='Помощь', menu=test3)
 
-        schedul = scheduler.Schedule().changed_needed()
+        self.schedul = scheduler.Schedule().changed_needed()
 
-        heads = ['Предмет', 'Группа', 'Аудитория',
+        self.heads = ['Предмет', 'Группа', 'Аудитория',
                   'Корпус', 'Пара', 'Начало', 'Конец',
                   'Преподаватели', 'Дата', 'Время', 'Вес']
-        data = list(map(list, schedul.values))
+        data = list(map(list, self.schedul.values))
 
-        self.create_table(heads, data)
+        self.create_table(self.heads, data)
         # заполнение таблицы
 
         # schedul = scheduler.Schedule().changed_needed()
@@ -80,43 +82,47 @@ class Window(Tk):
 
     def select_corpus(self):
         top = Toplevel(self)
-        choise = Entry(top)
-        choise.pack()
-        btn_top_level = Button(top, text='Далее', command=self.set_corputs)
+        self.choise = Entry(top)
+        self.choise.pack()
+        btn_top_level = Button(top, text='Далее', command=self.set_corpus)
         btn_top_level.pack()
         top.transient(self)
         top.grab_set()
         top.focus_get()
         top.wait_window()
 
-    def set_corputs(self):
+    def set_corpus(self):
         self.clear_treeview()
+        data = self.schedul[self.schedul['corpus'] == self.choise.get()]
+        data = list(map(list, data.values))
+        self.fill_data(data)
 
 
-    def create_table(self, heads, data):
-        # фрейм
-        frame = Frame(self, )
-        frame.pack()
-
-        schedul = scheduler.Schedule().changed_needed()
-
-        heads = ['Предмет', 'Группа', 'Аудитория',
-                 'Корпус', 'Пара', 'Начало', 'Конец',
-                 'Преподаватели', 'Дата', 'Время', 'Вес']
-        data = list(map(list, schedul.values))
-
-        # высота изменяеться в зависимости количества данных
-        self.table = ttk.Treeview(self, show='headings', height=len(data))
-        self.table['columns'] = heads
-
+    def fill_data(self, data):
         # перебираем данные из списка header и заполняем в таблицу
-        for header in heads:
+        for header in self.heads:
             self.table.heading(header, text=header, anchor='center')
             self.table.column(header, anchor='center', minwidth=150, width=140)
 
         # перебираем данные из списка data и заполняем в таблицу
         for row in data:
             self.table.insert('', END, values=row)
+
+        data = list(map(lambda x: x[:11], data))
+        self.visible_data = pandas.DataFrame(columns=self.heads, data=data)
+
+    def create_table(self, heads, data):
+        # фрейм
+        frame = Frame(self, )
+        frame.pack()
+
+
+
+        # высота изменяеться в зависимости количества данных
+        self.table = ttk.Treeview(self, show='headings', height=len(data))
+        self.table['columns'] = heads
+
+        self.fill_data(data)
 
         # скроллинг по оси Y
         scroll_panel_y = ttk.Scrollbar(self, command=self.table.yview)
@@ -134,3 +140,5 @@ class Window(Tk):
     def clear_treeview(self):
         for row in self.table.get_children():
            self.table.delete(row)
+
+
