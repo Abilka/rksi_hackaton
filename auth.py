@@ -33,23 +33,13 @@ class AuthApp(Tk):
         self.config(menu=menu)
 
         test1 = Menu(menu, tearoff=0)
-        test1.add_command(label='test1')
-        test1.add_command(label='test2')
-        test1.add_command(label='test3')
+        test1.add_command(label='Выйти')
 
         test2 = Menu(menu, tearoff=0)
-        test2.add_command(label='test1')
-        test2.add_command(label='test2')
-        test2.add_command(label='test3')
+        test2.add_command(label='Обратная связь', command=self.help)
 
-        test3 = Menu(menu, tearoff=0)
-        test3.add_command(label='test1')
-        test3.add_command(label='test2')
-        test3.add_command(label='test3')
-
-        menu.add_cascade(label='test1', menu=test1)
-        menu.add_cascade(label='test2', menu=test2)
-        menu.add_cascade(label='test3', menu=test3)
+        menu.add_cascade(label='Действия', menu=test1)
+        menu.add_cascade(label='Помощь', menu=test2)
 
         Label(self, text='Авторизация', font=('Arial Bold', 20), justify='center', bg='#D5E8D4').grid(
             row=0, column=5, pady=(40, 10))
@@ -78,3 +68,15 @@ class AuthApp(Tk):
 
         else:
             messagebox.showerror('Ошибка', 'Не правильный логин или пароль')
+
+    def help(self):
+        top = Toplevel(self)
+        top.geometry('200x200+450+150')
+        top.config(bg='#D5E8D4')
+
+        label_select_corpus = Label(top, text='Обратная связь', bg='#D5E8D4')
+        label_select_corpus.pack(pady=(20, 10))
+
+        label_select_corpus = Label(top, text='VK: https://vk.com/zafires\nVK: https://vk.com/al_shashkin',
+                                    bg='#D5E8D4')
+        label_select_corpus.pack(pady=20)
