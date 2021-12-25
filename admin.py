@@ -16,7 +16,7 @@ class Window(Tk):
         # параметры окна
         self.geometry('1000x400+150+150')
         self.title("Turtle")
-        self.config(bg='#D5E8D4')
+        self.config(bg='#83d798')
 
         # фрейм
         frame = Frame(self)
@@ -29,13 +29,11 @@ class Window(Tk):
         test1.add_command(label='Добавить пользователя', font=("Arial Bold", 10), command=self.new_window2)
         test1.add_command(label='Выйти', font=("Arial Bold", 10), command=self.back_auth)
 
-        # test2 = Menu(menu, tearoff=0)
-        # test2.add_command(label='test1')
-        # test2.add_command(label='test2')
-        # test2.add_command(label='test3')
+        test2 = Menu(menu, tearoff=0)
+        test2.add_command(label='Обратная связь', font=("Arial Bold", 10), command=self.help)
 
         menu.add_cascade(label='Действия', menu=test1)
-        # menu.add_cascade(label='test2', menu=test2)
+        menu.add_cascade(label='Помощь', menu=test2)
 
         # заполнение таблицы
 
@@ -79,6 +77,23 @@ class Window(Tk):
         auth.AuthApp()
         self.destroy()
 
+    def help(self):
+        top = Toplevel(self)
+        top.geometry('200x200+450+150')
+        top.config(bg='#83d798')
+
+        label_help1 = Label(top, text='Обратная связь', bg='#83d798', font=("Arial Bold", 12))
+        label_help1.pack(pady=(20, 10))
+
+        label_help2 = Label(top, text='VK: https://vk.com/zafires\nVK: https://vk.com/al_shashkin',
+                            bg='#83d798', font=("Arial Bold", 10))
+        label_help2.pack(pady=20)
+
+        top.transient(self)
+        top.grab_set()
+        top.focus_get()
+        top.wait_window()
+
 
 class add_User(Tk):
     def __init__(self, *arg, **kwarg):
@@ -87,9 +102,9 @@ class add_User(Tk):
         # параметры окна
         self.geometry('300x300+450+150')
         self.title("Регистрация нового пользователя")
-        self.config(bg='#D5E8D4')
+        self.config(bg='#83d798')
 
-        label_login = Label(self, text='Логин:', bg='#D5E8D4', font=("Arial Bold", 10))
+        label_login = Label(self, text='Логин:', bg='#83d798', font=("Arial Bold", 10))
         label_login.grid(
             column=0, row=0, padx=120, pady=(20, 0)
         )
@@ -99,7 +114,7 @@ class add_User(Tk):
             row=1, column=0, pady=(10, 10)
         )
 
-        label_password = Label(self, text='Пароль:', bg='#D5E8D4', font=("Arial Bold", 10),)
+        label_password = Label(self, text='Пароль:', bg='#83d798', font=("Arial Bold", 10),)
         label_password.grid(
             column=0, row=3
         )

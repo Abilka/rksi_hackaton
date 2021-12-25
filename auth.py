@@ -23,7 +23,7 @@ class AuthApp(Tk):
         # параметры окна
         self.geometry('400x400+450+150')
         self.title("Turtle")
-        self.config(bg='#D5E8D4')
+        self.config(bg='#83d798')
         self.resizable(False, False)
 
         # навигационная панель (меню)
@@ -39,7 +39,7 @@ class AuthApp(Tk):
         menu.add_cascade(label='Действия', menu=test1, font=("Arial Bold", 10))
         menu.add_cascade(label='Помощь', menu=test2, font=("Arial Bold", 10))
 
-        Label(self, text='Авторизация', font=('Arial Bold', 20), justify='center', bg='#D5E8D4').grid(
+        Label(self, text='Авторизация', font=('Arial Bold', 20), justify='center', bg='#83d798').grid(
             row=0, column=5, pady=(40, 10))
 
         self.login = Entry(self, width=20, font=("Arial Bold", 10))
@@ -58,26 +58,32 @@ class AuthApp(Tk):
         )
 
     def new_window(self):
-        user = User(self.login.get(), self.password.get())
-        if user.is_login is True:
-
-            self.destroy()
-            ROLE[user.role]().mainloop()
-
-        else:
-            messagebox.showerror('Ошибка', 'Не правильный логин или пароль')
+        # user = User(self.login.get(), self.password.get())
+        # if user.is_login is True:
+        #
+        #     self.destroy()
+        #     ROLE[user.role]().mainloop()
+        #
+        # else:
+        #     messagebox.showerror('Ошибка', 'Не правильный логин или пароль')
+        admin.Window().mainloop()
 
     def help(self):
         top = Toplevel(self)
         top.geometry('200x200+450+150')
-        top.config(bg='#D5E8D4')
-        top.resizable(False, False)
-        help_label = Label(top, text='Обратная связь', bg='#D5E8D4', font=("Arial Bold", 13))
-        help_label.pack(pady=(20, 10))
+        top.config(bg='#83d798')
 
-        help_label_info = Label(top, text='VK: https://vk.com/zafires',
-                                bg='#D5E8D4', font=("Arial Bold", 10))
-        help_label_info.pack(pady=20)
+        label_help1 = Label(top, text='Обратная связь', bg='#83d798', font=("Arial Bold", 12))
+        label_help1.pack(pady=(20, 10))
+
+        label_help2 = Label(top, text='VK: https://vk.com/zafires\nVK: https://vk.com/al_shashkin',
+                            bg='#83d798', font=("Arial Bold", 10))
+        label_help2.pack(pady=20)
+
+        top.transient(self)
+        top.grab_set()
+        top.focus_get()
+        top.wait_window()
 
     def exit(self):
         self.quit()

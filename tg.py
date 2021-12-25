@@ -15,32 +15,26 @@ class Window(Tk):
         # параметры окна
         self.geometry('1000x400+150+150')
         self.title("Turtle")
-        self.config(bg='#D5E8D4')
+        self.config(bg='#83d798')
 
         # навигационная панель (меню)
         menu = Menu(self)
         self.config(menu=menu)
 
         test1 = Menu(menu, tearoff=0)
+        test1.add_command(label='Выбрать корпус', command=self.select_corpus)
         test1.add_command(label='Выйти', command=self.back_auth)
-        test1.add_command(label='test2')
-        test1.add_command(label='test3')
 
         test2 = Menu(menu, tearoff=0)
-        test2.add_command(label='Выбрать корпус', command=self.select_corpus)
-        test2.add_command(label='test2')
-        test2.add_command(label='test3')
         test2.add_command(label='Выгрузка текущих данных', command=self.uploading_current_data)
         test2.add_command(label='Выгрузка данных', command=self.uploading_data)
 
         test3 = Menu(menu, tearoff=0)
-        test3.add_command(label='test1')
-        test3.add_command(label='test2')
-        test3.add_command(label='test3')
         test3.add_command(label='Обратная связь', command=self.help)
 
         menu.add_cascade(label='Действия', menu=test1)
         menu.add_cascade(label='Выгрузка', menu=test2)
+        menu.add_cascade(label='Помощь', menu=test3)
 
         self.schedul = scheduler.Schedule().changed_needed()
 
@@ -64,8 +58,14 @@ class Window(Tk):
 
     def select_corpus(self):
         top = Toplevel(self)
+        top.geometry('200x200+450+200')
+        top.config(bg='#83d798')
+
+        self.corpus_label = Label(top, text='Выберите корпус', font=("Arial Bold", 12), bg='#83d798')
+        self.corpus_label.pack(pady=20)
         self.choise = Entry(top)
-        self.choise.pack()
+        self.choise.pack(pady=(0, 10))
+
         btn_top_level = Button(top, text='Далее', command=self.set_corpus)
         btn_top_level.pack()
         top.transient(self)
@@ -92,15 +92,14 @@ class Window(Tk):
         data = list(map(lambda x: x[:11], data))
         self.visible_data = pandas.DataFrame(columns=self.heads, data=data)
 
-
     def uploading_current_data(self):
         top = Toplevel(self)
         top.geometry('170x240+450+150')
         top.resizable(False, False)
-        top.config(bg='#D5E8D4')
+        top.config(bg='#83d798')
 
-        label_select_corpus = Label(top, text='Выберите формат', bg='#D5E8D4')
-        label_select_corpus.grid(
+        uploading_current_data_label = Label(top, text='Выберите формат', bg='#83d798', font=("Arial Bold", 10))
+        uploading_current_data_label.grid(
             pady=(20, 10), padx=(30, 10)
         )
 
@@ -129,7 +128,6 @@ class Window(Tk):
             row=7, column=0, padx=(30, 10), pady=(10, 0)
         )
 
-        self.choise.pack()
         top.transient(self)
         top.grab_set()
         top.focus_get()
@@ -138,16 +136,15 @@ class Window(Tk):
     def help(self):
         top = Toplevel(self)
         top.geometry('200x200+450+150')
-        top.config(bg='#D5E8D4')
+        top.config(bg='#83d798')
 
-        label_select_corpus = Label(top, text='Обратная связь', bg='#D5E8D4')
-        label_select_corpus.pack(pady=(20, 10))
+        label_help1 = Label(top, text='Обратная связь', bg='#83d798', font=("Arial Bold", 12))
+        label_help1.pack(pady=(20, 10))
 
-        label_select_corpus = Label(top, text='VK: https://vk.com/zafires\nVK: https://vk.com/al_shashkin',
-                                    bg='#D5E8D4')
-        label_select_corpus.pack(pady=20)
+        label_help2 = Label(top, text='VK: https://vk.com/zafires\nVK: https://vk.com/al_shashkin',
+                                    bg='#83d798', font=("Arial Bold", 10))
+        label_help2.pack(pady=20)
 
-        self.choise.pack()
         top.transient(self)
         top.grab_set()
         top.focus_get()
@@ -157,10 +154,10 @@ class Window(Tk):
         top = Toplevel(self)
         top.geometry('170x240+450+150')
         top.resizable(False, False)
-        top.config(bg='#D5E8D4')
+        top.config(bg='#83d798')
 
-        label_select_corpus = Label(top, text='Выберите формат', bg='#D5E8D4')
-        label_select_corpus.grid(
+        uploading_data_label = Label(top, text='Выберите формат', bg='#83d798', font=("Arial Bold", 10))
+        uploading_data_label.grid(
             pady=(20, 10), padx=(30, 10)
         )
 
@@ -189,7 +186,6 @@ class Window(Tk):
             row=7, column=0, padx=(30, 10), pady=(10, 0)
         )
 
-        self.choise.pack()
         top.transient(self)
         top.grab_set()
         top.focus_get()
