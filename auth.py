@@ -58,15 +58,15 @@ class AuthApp(Tk):
         )
 
     def new_window(self):
-        # user = User(self.login.get(), self.password.get())
-        # if user.is_login is True:
-        #
-        #     self.destroy()
-        #     ROLE[user.role]().mainloop()
-        #
-        # else:
-        #     messagebox.showerror('Ошибка', 'Не правильный логин или пароль')
-        admin.Window().mainloop()
+        user = User(self.login.get(), self.password.get())
+        if user.is_login is True:
+
+            self.destroy()
+            ROLE[user.role]().mainloop()
+
+        else:
+            messagebox.showerror('Ошибка', 'Не правильный логин или пароль')
+
 
     def help(self):
         top = Toplevel(self)
