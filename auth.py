@@ -57,6 +57,9 @@ class AuthApp(Tk):
             row=3, column=5, pady=15,
         )
 
+        self.bind('<Return>', self.new_window)
+
+
     def new_window(self):
         user = User(self.login.get(), self.password.get())
         if user.is_login is True:

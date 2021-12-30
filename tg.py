@@ -66,6 +66,7 @@ class Window(Tk):
         self.choise = Entry(top)
         self.choise.pack(pady=(0, 10))
 
+
         btn_top_level = Button(top, text='Далее', command=self.set_corpus)
         btn_top_level.pack()
         top.transient(self)
@@ -78,6 +79,7 @@ class Window(Tk):
         data = self.schedul[self.schedul['corpus'] == self.choise.get()]
         data = list(map(list, data.values))
         self.fill_data(data)
+
 
     def fill_data(self, data):
         # перебираем данные из списка header и заполняем в таблицу
