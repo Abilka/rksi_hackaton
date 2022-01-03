@@ -4,6 +4,7 @@ from tkinter import ttk
 from tkinter.tix import ComboBox
 
 import scheduler
+import webbrowser
 import auth
 import user
 from tkinter import messagebox
@@ -79,15 +80,38 @@ class Window(Tk):
 
     def help(self):
         top = Toplevel(self)
-        top.geometry('200x200+450+150')
+        top.geometry('250x250+500+200')
         top.config(bg='#83d798')
 
-        label_help1 = Label(top, text='Обратная связь', bg='#83d798', font=("Arial Bold", 12))
+        def callback(event): #создаем функцию для гиперссылок
+            webbrowser.open_new(event.widget.cget("text"))
+
+        label_help1 = Label(top, text='Обратная связь', bg='#83d798', font=("Arial Bold", 14))
         label_help1.pack(pady=(20, 10))
 
-        label_help2 = Label(top, text='VK: https://vk.com/zafires\nVK: https://vk.com/al_shashkin',
-                            bg='#83d798', font=("Arial Bold", 10))
-        label_help2.pack(pady=20)
+        label_help2 = Label(top, text='Егор Лядский:', bg='#83d798', font=("Arial Bold", 11))
+        label_help2.pack()
+
+        label_help_url2 = Label(top, text='https://vk.com/zafires',
+                                    bg='#83d798', font=("Arial Bold", 10), fg='blue', cursor='hand2')
+        label_help_url2.pack(pady=5)
+        label_help_url2.bind("<Button-1>", callback)
+
+        label_help3 = Label(top, text='Алексей Шашкин:', bg='#83d798', font=("Arial Bold", 11))
+        label_help3.pack()
+
+        label_help_url3 = Label(top, text='https://vk.com/al_shashkin',
+                                bg='#83d798', font=("Arial Bold", 10), fg='blue', cursor='hand2')
+        label_help_url3.pack(pady=5)
+        label_help_url3.bind("<Button-1>", callback)
+
+        label_help4 = Label(top, text='Максим Шимон:', bg='#83d798', font=("Arial Bold", 11))
+        label_help4.pack()
+
+        label_help_url4 = Label(top, text='https://vk.com/cisctem',
+                                bg='#83d798', font=("Arial Bold", 10), fg='blue', cursor='hand2')
+        label_help_url4.pack(pady=5)
+        label_help_url4.bind("<Button-1>", callback)
 
         top.transient(self)
         top.grab_set()
