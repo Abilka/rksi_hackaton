@@ -1,22 +1,22 @@
+# Импорт модулей
 import tkinter
-import setting
-import accounting
-import admin
-import tg
 import typing
 import webbrowser
 import datetime
 
-from PIL import Image, ImageTk
-from user import User
 from tkinter import *
 from tkinter import messagebox
 from tkinter import Tk
 
+# Импорт файлов
+import admin
+import tg
+import setting
+
+from user import User
 
 ROLE: typing.Dict = {
     'admin': admin.Window,
-    'buh': accounting.Window,
     'tb': tg.Window
 }
 
@@ -61,13 +61,10 @@ class AuthApp(Tk):
             row=2, column=5, padx=140
         )
 
-        Button(self, text='Далее', width=10, height=1, font=("Arial Bold", 10),
+        btn1 = Button(self, text='Далее', width=10, height=1, font=("Arial Bold", 10),
                command=self.new_window).grid(
             row=3, column=5, pady=15,
         )
-
-        self.bind('<Return>', self.new_window)
-
 
     def new_window(self):
         user = User(self.login.get(), self.password.get())
@@ -79,13 +76,12 @@ class AuthApp(Tk):
         else:
             messagebox.showerror('Ошибка', 'Неправильный логин или пароль')
 
-
     def help(self):
         top = Toplevel(self)
         top.geometry('250x250+500+200')
         top.config(bg='#83d798')
 
-        def callback(event): #создаем функцию для гиперссылок
+        def callback(event):  # создаем функцию для гиперссылок
             webbrowser.open_new(event.widget.cget("text"))
 
         label_help1 = Label(top, text='Обратная связь', bg='#83d798', font=("Arial Bold", 14))
@@ -95,7 +91,7 @@ class AuthApp(Tk):
         label_help2.pack()
 
         label_help_url2 = Label(top, text='https://vk.com/zafires',
-                                    bg='#83d798', font=("Arial Bold", 10), fg='blue', cursor='hand2')
+                                bg='#83d798', font=("Arial Bold", 10), fg='blue', cursor='hand2')
         label_help_url2.pack(pady=5)
         label_help_url2.bind("<Button-1>", callback)
 

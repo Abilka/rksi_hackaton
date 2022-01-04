@@ -1,6 +1,7 @@
-from typing import Union
-
+# Импорт модулей
 import requests
+
+from typing import Union
 from bs4 import BeautifulSoup
 
 APAIR_NUMBER = {

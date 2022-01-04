@@ -1,12 +1,14 @@
+# Импорт модулей
+import pandas
+import webbrowser
+
 from tkinter import *
 from tkinter import ttk
 
-import pandas
-
+# Импорт файлов
 import auth
 import recorder
 import scheduler
-import webbrowser
 
 
 class Window(Tk):
@@ -67,7 +69,6 @@ class Window(Tk):
         self.choise = Entry(top)
         self.choise.pack(pady=(0, 10))
 
-
         btn_top_level = Button(top, text='Далее', command=self.set_corpus)
         btn_top_level.pack()
         top.transient(self)
@@ -80,7 +81,6 @@ class Window(Tk):
         data = self.schedul[self.schedul['corpus'] == self.choise.get()]
         data = list(map(list, data.values))
         self.fill_data(data)
-
 
     def fill_data(self, data):
         # перебираем данные из списка header и заполняем в таблицу
@@ -141,7 +141,7 @@ class Window(Tk):
         top.geometry('250x250+500+200')
         top.config(bg='#83d798')
 
-        def callback(event): #создаем функцию для гиперссылок
+        def callback(event):  # создаем функцию для гиперссылок
             webbrowser.open_new(event.widget.cget("text"))
 
         label_help1 = Label(top, text='Обратная связь', bg='#83d798', font=("Arial Bold", 14))
@@ -151,7 +151,7 @@ class Window(Tk):
         label_help2.pack()
 
         label_help_url2 = Label(top, text='https://vk.com/zafires',
-                                    bg='#83d798', font=("Arial Bold", 10), fg='blue', cursor='hand2')
+                                bg='#83d798', font=("Arial Bold", 10), fg='blue', cursor='hand2')
         label_help_url2.pack(pady=5)
         label_help_url2.bind("<Button-1>", callback)
 

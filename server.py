@@ -1,10 +1,12 @@
 """REST API"""
+# Импорт модулей
 import json
-
 import flask
 import pandas
+
 from flask import request
 
+# Импорт файлов
 import database
 import setting
 

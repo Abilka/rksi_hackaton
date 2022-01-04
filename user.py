@@ -1,5 +1,8 @@
+# Импорт модулей
 import hashlib
 import requests
+
+# Импорт файлов
 import setting
 
 

@@ -1,9 +1,10 @@
+# Импорт модулей
 import json
 import typing
-
 import pandas
 import requests
 
+# Импорт файлов
 import database
 import setting
 
