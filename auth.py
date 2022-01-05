@@ -1,8 +1,6 @@
 # Импорт модулей
-import tkinter
 import typing
 import webbrowser
-import datetime
 
 from tkinter import *
 from tkinter import messagebox
@@ -11,7 +9,6 @@ from tkinter import Tk
 # Импорт файлов
 import admin
 import tg
-import setting
 
 from user import User
 
@@ -26,7 +23,7 @@ class AuthApp(Tk):
         super().__init__(*args, **kwargs)
 
         # параметры окна
-        self.geometry('425x425+450+150')
+        self.geometry('425x300+450+150')
         self.title("Turtle")
         self.config(bg='#83d798')
         self.iconphoto(True, PhotoImage(file='img/turtle.png'))
@@ -50,23 +47,24 @@ class AuthApp(Tk):
         menu.add_cascade(label='Помощь', menu=test2, font=("Arial Bold", 10))
 
         Label(self, text='Авторизация', font=('Arial Bold', 20), justify='center', bg='#83d798').grid(
-            row=0, column=5, pady=(40, 10))
+            row=0, column=5, pady=(20, 10))
 
+        Label(self, text='Логин', bg='#83d798').grid(row=1, column=5, sticky='nw', padx=140)
         self.login = Entry(self, width=20, font=("Arial Bold", 10))
         self.login.grid(
-            row=1, column=5, pady=(10, 10), padx=140
+            row=2, column=5, pady=(0, 10), padx=140
         )
 
-
+        Label(self, text='Пароль', bg='#83d798').grid(row=3, column=5, sticky='nw', padx=140)
         self.password = Entry(self, width=20, show='*', font=("Arial Bold", 10))
         self.password.grid(
-            row=2, column=5, padx=140
+            row=4, column=5, padx=140
         )
 
 
         btn1 = Button(self, text='Далее', width=10, height=1, font=("Arial Bold", 10),
                command=self.new_window).grid(
-            row=3, column=5, pady=15,
+            row=5, column=5, pady=15,
         )
 
     def new_window(self):
