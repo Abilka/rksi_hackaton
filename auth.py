@@ -29,6 +29,7 @@ class AuthApp(Tk):
         self.geometry('425x425+450+150')
         self.title("Turtle")
         self.config(bg='#83d798')
+        self.iconphoto(True, PhotoImage(file='img/turtle.png'))
         self.resizable(False, False)
 
         '''filename = PhotoImage(file=r"C:\turtle.png")
@@ -56,10 +57,12 @@ class AuthApp(Tk):
             row=1, column=5, pady=(10, 10), padx=140
         )
 
+
         self.password = Entry(self, width=20, show='*', font=("Arial Bold", 10))
         self.password.grid(
             row=2, column=5, padx=140
         )
+
 
         btn1 = Button(self, text='Далее', width=10, height=1, font=("Arial Bold", 10),
                command=self.new_window).grid(
