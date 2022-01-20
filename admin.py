@@ -1,17 +1,13 @@
-#Импорт модулей
 import tkinter
-import webbrowser
-
 from tkinter import *
 from tkinter import ttk
 from tkinter.tix import ComboBox
-from tkinter import messagebox
 
-#Импорт файлов
 import scheduler
+import webbrowser
 import auth
 import user
-
+from tkinter import messagebox
 
 
 class Window(Tk):

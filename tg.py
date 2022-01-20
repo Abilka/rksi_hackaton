@@ -4,10 +4,7 @@ import webbrowser
 
 from tkinter import *
 from tkinter import ttk
-from tkinter import colorchooser
-from tkinter.colorchooser import askcolor
-from tkinter.ttk import *
-from tkinter import Tk, Frame, Button, BOTH, SUNKEN
+
 # Импорт файлов
 import auth
 import recorder
@@ -38,13 +35,9 @@ class Window(Tk):
         test3 = Menu(menu, tearoff=0)
         test3.add_command(label='Обратная связь', command=self.help)
 
-        test4 = Menu(menu, tearoff=0)
-        test4.add_command(label='Выбрать цвет', command=self.colors)
-
         menu.add_cascade(label='Действия', menu=test1)
         menu.add_cascade(label='Выгрузка', menu=test2)
         menu.add_cascade(label='Помощь', menu=test3)
-        menu.add_cascade(label='Цвета', menu=test4)
 
         self.schedul = scheduler.Schedule().changed_needed()
 
@@ -56,7 +49,6 @@ class Window(Tk):
         self.create_table(self.heads, data)
 
         self.table.bind('<Button-1>', self.header_sort)
-        self.table.bind('<Double-Button-1>', self.color_row)
 
     def header_sort(self, event):
         region = self.table.identify("region", event.x, event.y)
@@ -69,7 +61,7 @@ class Window(Tk):
 
     def select_corpus(self):
         top = Toplevel(self)
-        top.geometry('250x250+450+200')
+        top.geometry('200x200+450+200')
         top.config(bg='#83d798')
 
         self.corpus_label = Label(top, text='Выберите корпус', font=("Arial Bold", 12), bg='#83d798')
@@ -90,23 +82,7 @@ class Window(Tk):
         data = list(map(list, data.values))
         self.fill_data(data)
 
-    def color_row(self, event):
-        tree = event.widget
-        item = tree.identify_row(event.y)
-        tree.tk.call(tree, "tag", "remove", "highlight")
-        tree.tk.call(tree, "tag", "add", "highlight", item)
-
-
     def fill_data(self, data):
-        tree = ttk.Treeview(self, style='W.TButton')
-        vsb = ttk.Scrollbar(self, command=tree.yview)
-        tree.configure(yscrollcommand=vsb.set)
-
-        vsb.pack(side="right", fill="y")
-        tree.pack(side="left", fill="both", expand=True)
-
-        tree.tag_configure('highlight', background='green')
-        tree.bind("<Double-Button-1>", self.color_row)
         # перебираем данные из списка header и заполняем в таблицу
         for header in self.heads:
             self.table.heading(header, text=header, anchor='center')
@@ -115,11 +91,6 @@ class Window(Tk):
         # перебираем данные из списка data и заполняем в таблицу
         for row in data:
             self.table.insert('', END, values=row)
-            tree.tag_bind(row, '<Double-Button-1>', self.color_row)
-
-        for row in data: #range(100)
-            tree.insert('', "end", values=row) #f"строка #{i+1}"
-            tree.tag_bind(row, '<Double-Button-1>', self.color_row)
 
         data = list(map(lambda x: x[:11], data))
         self.visible_data = pandas.DataFrame(columns=self.heads, data=data)
@@ -205,28 +176,6 @@ class Window(Tk):
         top.focus_get()
         top.wait_window()
 
-    def onChoose(self):
-        (rgb, hx) = tkColorChooser.askcolor()
-        self.frame.config(bg=hx)
-
-    def colors(self):
-        top = Toplevel(self)
-        top.geometry('350x300+300+300')
-        top.config(bg='white')
-
-        self.pack(fill=BOTH, expand=True)
-
-        self.btn = Button(top, text="Выберите цвет", command=self.onChoose)
-        self.btn.place(x=20, y=30)
-
-        self.frame = Frame(top, border=1, relief=SUNKEN, width=100, height=100)
-        self.frame.place(x=160, y=30)
-
-        top.transient(self)
-        top.grab_set()
-        top.focus_get()
-        top.wait_window()
-
     def uploading_data(self):
         top = Toplevel(self)
         top.geometry('170x240+450+150')
@@ -302,7 +251,6 @@ class Window(Tk):
         scroll_panel_x.pack(side=BOTTOM, fill=X)
 
         self.table.pack(expand=YES, fill=BOTH)
-
 
     def treeview_sort_column(self, col, reverse: bool):
         """
